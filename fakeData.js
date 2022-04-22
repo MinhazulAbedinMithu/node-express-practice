@@ -231,4 +231,12 @@ const users = [
 	},
 ];
 
-export { users };
+const products = [
+	{
+		id: 1,
+		name: "shirt",
+		price: "12.34",
+	},
+];
+
+module.exports = { users, products };
