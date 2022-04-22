@@ -1,0 +1,17 @@
+{
+	"name": "node-express-practice",
+	"version": "1.0.0",
+	"description": "Node Express practice following Node JS Tutorials",
+	"main": "app.js",
+	"scripts": {
+		"start": "nodemon app.js"
+	},
+	"author": "Minhazul Abedin",
+	"license": "ISC",
+	"devDependencies": {
+		"nodemon": "^2.0.15"
+	},
+	"dependencies": {
+		"express": "^4.17.3"
+	}
+}
