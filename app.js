@@ -36,6 +36,31 @@ app.get("/users/:userID", (req, res) => {
 	res.status(200).send(singleUser);
 });
 
+//Query String: Search and set limit
+app.get("/api/users/query", (req, res) => {
+	const { search, limit } = req.query;
+	let searchedUsers = [...users];
+	if (search) {
+		searchedUsers = searchedUsers.filter((user) => {
+			return user.name.startsWith(search);
+		});
+	}
+
+	if (limit) {
+		searchedUsers = searchedUsers.slice(0, Number(limit));
+	}
+
+	if (searchedUsers.length < 1) {
+		return res.status(200).json({
+			success: true,
+			data: [],
+			message: "No user matched with your search key",
+		});
+	}
+
+	res.send(searchedUsers);
+});
+
 app.get("*", (req, res) => {
 	res
 		.status(404)
