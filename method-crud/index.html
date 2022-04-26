@@ -14,25 +14,70 @@
 			<h2 class="text-center text-4xl font-bold">HTTP Method Practice</h2>
 
 			<form
-				action="/login"
+				action="/api/people"
 				method="POST"
 				class="submit-form flex flex-col items-center justify-center gap-5 py-20"
 			>
-				<input
-					type="text"
-					name="name"
-					id="name"
-					placeholder="Enter your name"
-					autocomplete="false"
-					class="input-name px-5 py-2 text-xl rounded-xl text-black font-bold"
-				/>
+				<div class="flex flex-col">
+					<input
+						type="text"
+						name="name"
+						id="name"
+						placeholder="Enter your name"
+						autocomplete="false"
+						class="input-name px-5 py-2 text-xl rounded-xl text-black font-bold"
+					/>
+					<span class="form-alert pl-5"></span>
+				</div>
 				<button
-					class="submit-btn px-5 py-2 text-2xl font-bold rounded-xl bg-yellow-600 text-violet-800"
+					class="submit-btn px-5 py-2 text-2xl font-bold rounded-xl bg-yellow-400 text-violet-800"
 				>
 					Submit
 				</button>
 			</form>
-			<div class="py-5 people-container"></div>
+			<div
+				class="py-5 people-container flex items-center justify-center gap-5 text-2xl text-white"
+			></div>
 		</div>
 	</body>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script>
+		//declaration::
+		const peopleContainer = document.querySelector(".people-container");
+		const inputName = document.querySelector(".input-name");
+		const submitBtn = document.querySelector(".submit-btn");
+		const formAlert = document.querySelector(".form-alert");
+
+		//get people implement:
+		const fetchPeople = async () => {
+			try {
+				const { data } = await axios.get("/api/people");
+				const peopleItem = data.data.map((people) => {
+					return `<h4>${people.name}</h4>`;
+				});
+				peopleContainer.innerHTML = peopleItem.join(" ");
+			} catch (err) {
+				peopleContainer.innerHTML = `<h4>Can't fetch Peoples</h4>`;
+			}
+		};
+		fetchPeople();
+
+		//Post People:::
+		submitBtn.addEventListener("click", async (e) => {
+			e.preventDefault();
+			const inputNameValue = inputName.value;
+			console.log(inputNameValue);
+			try {
+				const { data } = await axios.post("/api/people", {
+					name: inputNameValue,
+				});
+				const newPeople = document.createElement("h4");
+				newPeople.textContent = data.person;
+
+				peopleContainer.appendChild(newPeople);
+			} catch (err) {
+				formAlert.innerText = err.response.data.msg;
+			}
+		});
+	</script>
 </html>
