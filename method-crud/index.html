@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://cdn.tailwindcss.com"></script>
+		<title>Practice HTTP Methods</title>
+	</head>
+	<body class="bg-gray-400">
+		<div
+			class="container mx-auto my-10 py-10 px-5 h-min-[90vh] bg-gradient-to-r from-cyan-800 via-rose-900 to-emerald-900 rounded-md text-white"
+		>
+			<h2 class="text-center text-4xl font-bold">HTTP Method Practice</h2>
+
+			<form
+				action="/login"
+				method="POST"
+				class="submit-form flex flex-col items-center justify-center gap-5 py-20"
+			>
+				<input
+					type="text"
+					name="name"
+					id="name"
+					placeholder="Enter your name"
+					autocomplete="false"
+					class="input-name px-5 py-2 text-xl rounded-xl text-black font-bold"
+				/>
+				<button
+					class="submit-btn px-5 py-2 text-2xl font-bold rounded-xl bg-yellow-600 text-violet-800"
+				>
+					Submit
+				</button>
+			</form>
+			<div class="py-5 people-container"></div>
+		</div>
+	</body>
+</html>

@@ -239,4 +239,11 @@ const products = [
 	},
 ];
 
-module.exports = { users, products };
+const people = [
+	{ id: 1, name: "anam" },
+	{ id: 2, name: "Riya" },
+	{ id: 3, name: "john" },
+	{ id: 4, name: "saif" },
+];
+
+module.exports = { users, products, people };
