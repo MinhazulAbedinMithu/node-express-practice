@@ -1,22 +1,21 @@
 const express = require("express");
+require("dotenv").config();
 
-const peopleRoutes = require("./routes/people");
-const authRoutes = require("./routes/auth");
+const taskRoutes = require("./routes/task");
 
 const app = express();
-const port = 5000;
+const PORT = process.env.PORT;
 
-//Middleware
-app.use(express.static("./method-crud"));
-app.use(express.urlencoded({ extended: false }));
+//middleware
 app.use(express.json());
 
-//HTTP Methods :::
-app.use("/auth", authRoutes);
-app.use("/api/people", peopleRoutes);
+app.get("/", (req, res) => {
+	res.send("Welcome in Task Manager");
+});
 
+//routes: Task Manager
+app.use("/api/task", taskRoutes);
 
-//app listening :
-app.listen(port, () => {
-	console.log(`App is Running at ${port}`);
+app.listen(PORT, () => {
+	console.log(`App is running at ${PORT}`);
 });
