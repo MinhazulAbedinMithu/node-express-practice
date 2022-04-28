@@ -1,9 +1,13 @@
+const mongoose = require("mongoose");
+const taskSchema = require("../models/Task");
+
 const getTasks = async (req, res) => {
 	res.send("get all tasks");
 };
 
 const createTask = async (req, res) => {
-	res.send(req.body);
+	const newTask = await taskSchema.create(req.body);
+	res.status(200).json({ newTask });
 };
 
 const getSingleTask = async (req, res) => {

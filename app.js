@@ -2,9 +2,9 @@ const express = require("express");
 require("dotenv").config();
 
 const taskRoutes = require("./routes/task");
+const connectDB = require("./db/connectDB");
 
 const app = express();
-const PORT = process.env.PORT;
 
 //middleware
 app.use(express.json());
@@ -16,6 +16,15 @@ app.get("/", (req, res) => {
 //routes: Task Manager
 app.use("/api/task", taskRoutes);
 
-app.listen(PORT, () => {
-	console.log(`App is running at ${PORT}`);
-});
+const startServer = async () => {
+	try {
+		await connectDB(process.env.MONGO_URI);
+		app.listen(process.env.PORT, () => {
+			console.log(`App is running at ${process.env.PORT}`);
+		});
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+startServer();
