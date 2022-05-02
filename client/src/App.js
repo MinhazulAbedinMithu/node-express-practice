@@ -8,11 +8,7 @@ const App = () => {
 	const [tasks, setTasks] = useState([]);
 	const [isEdit, setIsEdit] = useState(false);
 	const [taskName, setTaskName] = useState("");
-	const [singleTask, setSingleTask] = useState({
-		_id: "",
-		name: "",
-		completed: "",
-	});
+	const [singleTask, setSingleTask] = useState({});
 
 	const handleChange = (e) => {
 		const value = e.target.value;
@@ -44,7 +40,6 @@ const App = () => {
 				.then((res) => res.json())
 				.then((data) => console.log(data));
 			setTasks(tasks.filter((task) => task._id !== id));
-			console.log(tasks);
 		} catch (error) {
 			console.log(error);
 		}
@@ -52,7 +47,6 @@ const App = () => {
 
 	//Single Task for Edit :::
 	const editableSingle = async (id) => {
-		console.log(id);
 		try {
 			await fetch(baseURL + "/" + id)
 				.then((res) => res.json())
@@ -62,10 +56,34 @@ const App = () => {
 		}
 		setIsEdit(!isEdit);
 	};
+	//handle onChange task :::
+	const handleEditOnchange = (e) => {
+		// setSingleTask(([e.target.name] = e.target.value));
+		const [name, value] = [
+			e.target.name,
+			e.target.name === "completed" ? e.target.checked : e.target.value,
+		];
+		const tempTask = { ...singleTask };
+		tempTask[name] = value;
+		setSingleTask(tempTask);
+		// console.log(e.target.value);
+	};
 
-	const handleUpdate = (e) => {
+	const handleUpdate = async (e) => {
 		e.preventDefault();
-		console.log(singleTask);
+		try {
+			await fetch(baseURL + "/" + singleTask._id, {
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(singleTask),
+			})
+				.then((res) => res.json())
+				.then((data) => console.log(data.task));
+
+			window.location.reload();
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const getTasks = async () => {
@@ -80,8 +98,6 @@ const App = () => {
 	useEffect(() => {
 		getTasks();
 	}, []);
-
-	console.log(singleTask.completed);
 
 	return (
 		<div className="w-full min-h-screen py-10 bg-gradient-to-br from-indigo-900 via-cyan-900 to-rose-900">
@@ -142,7 +158,7 @@ const App = () => {
 			{isEdit && (
 				<div className="absolute w-full h-full top-0 left-0 bg-slate-600/ py-32">
 					<div className="w-2/3 relative bg-purple-900 mx-auto rounded-md text-white p-5 px-10">
-						<h2 className="text-center text-2xl font-bold">Edit screen</h2>
+						<h2 className="text-center text-2xl font-bold">Update Task</h2>
 						<form
 							action=""
 							method="PATCH"
@@ -158,9 +174,7 @@ const App = () => {
 									id="name"
 									className="py-1 px-4 rounded-lg text-gray-700 text-xl"
 									value={singleTask.name}
-									onChange={(e) =>
-										setSingleTask(([e.target.name] = e.target.value))
-									}
+									onChange={handleEditOnchange}
 								/>
 							</div>
 							<div className="flex items-center justify-center gap-3">
@@ -170,13 +184,8 @@ const App = () => {
 								<input
 									type="checkbox"
 									name="completed"
-									value={singleTask.completed}
-									onChange={(e) =>
-										setSingleTask(([e.target.name] = e.target.value))
-									}
-									className={`${
-										singleTask.completed ? "bg-green-500" : "bg-gray-400"
-									}`}
+									defaultChecked={singleTask.completed}
+									onChange={handleEditOnchange}
 								/>
 							</div>
 							<button type="submit" onClick={handleUpdate}>
