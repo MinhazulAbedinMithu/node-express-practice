@@ -14,10 +14,11 @@ app.use(cors());
 app.use(express.json());
 
 // deployment
-app.use(express.static(path.resolve(__dirname, "./client/build")));
-app.get("*", function (request, response) {
-	response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
-});
+// app.use(express.static(path.resolve(__dirname, "./client/build")));
+// app.get("*", function (request, response) {
+// 	response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+// });
+
 app.get("/", (req, res) => {
 	res.send("Welcome in Task Manager");
 });
