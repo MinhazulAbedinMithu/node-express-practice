@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const cors = require("cors");
+const path = require("path");
 // const mongoose = require("mongoose");
 
 const taskRoutes = require("./routes/task");
@@ -12,6 +13,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// deployment
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, "./client/build")));
+app.get("*", (req, res) => {
+	res.sendFile(path.resolve(__dirname, "/", "client", "build", "index.html"));
+});
 app.get("/", (req, res) => {
 	res.send("Welcome in Task Manager");
 });
